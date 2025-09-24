@@ -94,3 +94,76 @@
       </div>
     </div>
   </div>
+
+   <!-- Bootstrap JS (includes Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- INLINE JS: Search filter + Delete handler -->
+  <script>
+    // SEARCH FILTER: "gaar u jar" - markaas waxaa la sifeynayaa rows-ka jadwalka
+    (function(){
+      const searchBox = document.getElementById('searchBox');
+      const table = document.getElementById('studentsTable').getElementsByTagName('tbody')[0];
+
+      searchBox.addEventListener('input', function(){
+        const q = this.value.trim().toLowerCase();
+        // loop rows
+        Array.from(table.rows).forEach(row => {
+          const id = row.cells[0].textContent.toLowerCase();
+          const name = row.cells[1].textContent.toLowerCase();
+          const email = row.cells[2].textContent.toLowerCase();
+          // show row if any cell contains query
+          const match = (!q) || id.includes(q) || name.includes(q) || email.includes(q);
+          row.style.display = match ? '' : 'none';
+        });
+      });
+    })();
+
+    // DELETE HANDLER: marka user-gu riixo "Yes, delete" ka
+    (function(){
+      // konnesshinka elements-ka confirm-delete
+      const confirmLinks = document.querySelectorAll('.confirm-delete');
+      confirmLinks.forEach(link => {
+        link.addEventListener('click', function(e){
+          e.preventDefault();
+          const id = this.getAttribute('data-target-row');
+          // meesha row ku yaal
+          const row = document.querySelector('tr[data-id="'+id+'"]');
+          if(!row) return;
+          // Halkan waxaad ku dari kartaa ajax call si aad u tirtirto server-ka.
+          // Tusaale ahaan: fetch('/delete-student/'+id, { method:'DELETE' }) ...
+          // Haddana frontend kaliya: ka saar row DOM
+          row.remove();
+        });
+      });
+
+      // optional: cancel link close dropdown - default bootstrap behavior handles it
+      const cancelLinks = document.querySelectorAll('.cancel-delete');
+      cancelLinks.forEach(a => {
+        a.addEventListener('click', function(e){
+          e.preventDefault();
+          // just close dropdown by focusing somewhere else
+          document.activeElement.blur();
+        });
+      });
+    })();
+
+    // ADD STUDENT button (demo frontend only)
+    document.getElementById('addStudent').addEventListener('click', function(){
+      alert('Kani waa naqshad kaliya kuma xidhna database');
+    });
+        document.getElementById('Edit').addEventListener('click', function(){
+      alert('Kani waa naqshad kaliya kuma xidhna database');
+    });
+        document.getElementById('Edit 1').addEventListener('click', function(){
+      alert('Kani waa naqshad kaliya kuma xidhna database');
+    });
+         document.getElementById('del 1').addEventListener('click', function(){
+      alert('Kani waa naqshad kaliya kuma xidhna database');
+    });
+         document.getElementById('del 2').addEventListener('click', function(){
+      alert('Kani waa naqshad kaliya kuma xidhna database');
+    });
+  </script>
+</body>
+</html>
